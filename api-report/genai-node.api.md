@@ -1102,7 +1102,7 @@ export interface EntityLabel {
 
 // @public
 export enum Environment {
-    ENVIRONMENT_BROWSER = "ENVIRONMENT_BROWSER",
+    ENVIRONMENT_BROWSER = "browser",
     ENVIRONMENT_UNSPECIFIED = "ENVIRONMENT_UNSPECIFIED"
 }
 

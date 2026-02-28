@@ -903,7 +903,7 @@ export enum Environment {
   /**
    * Operates in a web browser.
    */
-  ENVIRONMENT_BROWSER = 'ENVIRONMENT_BROWSER',
+  ENVIRONMENT_BROWSER = 'browser',
 }
 
 /** Enum for controlling whether the model can generate images of prominent people (celebrities). */

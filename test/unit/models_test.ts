@@ -1267,6 +1267,41 @@ describe('generateContent', () => {
     >;
     expect(requestOptions['timeout']).toEqual(1);
   });
+
+  it('should serialize computerUse.environment enum value to the API-expected string', async () => {
+    const client = new GoogleGenAI({vertexai: false, apiKey: 'fake-api-key'});
+    const fetchSpy = spyOn(global, 'fetch').and.returnValue(
+      Promise.resolve(
+        new Response(
+          JSON.stringify(mockGenerateContentResponse),
+          fetchOkOptions,
+        ),
+      ),
+    );
+    await client.models.generateContent({
+      model: 'gemini-2.5-flash-exp',
+      contents: 'help me use the browser',
+      config: {
+        tools: [
+          {
+            computerUse: {
+              environment: types.Environment.ENVIRONMENT_BROWSER,
+            },
+          },
+        ],
+      },
+    });
+    const requestBody = JSON.parse(
+      fetchSpy.calls.allArgs()[0][1]?.['body'] as string,
+    ) as Record<string, unknown>;
+    const computerUse = (
+      (requestBody?.['tools'] as Array<Record<string, unknown>>)?.[0]?.[
+        'computerUse'
+      ]
+    ) as Record<string, unknown>;
+    expect(computerUse).toBeDefined();
+    expect(computerUse['environment']).toEqual('browser');
+  });
 });
 describe('generateContentStream', () => {
   it('should append MCP usage header streaming', async () => {
